@@ -49,6 +49,9 @@ if (have_old_art)
 endif()
 unset(have_old_art)
 
+
+find_library( EPICS_CA NAMES ca PATHS $ENV{EPICS_LIBRARY} )
+
 # Debug streamer.
 string(TOUPPER ${CMAKE_BUILD_TYPE} BTYPE_UC)
 if(BTYPE_UC STREQUAL DEBUG)
