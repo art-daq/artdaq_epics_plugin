@@ -60,6 +60,7 @@ public:
 		{
 			SEVCHK(ca_clear_channel(channel.second), NULL);
 		}
+		channels_.clear();
 	}
 	void startMetrics_() {}
 
