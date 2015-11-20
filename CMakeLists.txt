@@ -43,13 +43,6 @@ find_ups_product( artdaq_utilities        v1_00_00 )
 find_ups_product( epics       v3_14_12 )
 find_ups_product( cetbuildtools v4_01_03 )
 
-check_ups_version(art "$ENV{ART_VERSION}" v1_11_00 PRODUCT_OLDER_VAR have_old_art)
-if (have_old_art)
-  cmake_policy(SET CMP0046 OLD)
-endif()
-unset(have_old_art)
-
-
 find_library( EPICS_CA NAMES ca PATHS $ENV{EPICS_LIBRARY} )
 
 # Debug streamer.
@@ -59,9 +52,7 @@ if(BTYPE_UC STREQUAL DEBUG)
 endif()
 
 # macros for artdaq_dictionary and simple_plugin
-include(ArtDictionary)
-include(ArtMake)
-include(BuildPlugins)
+include(BasicPlugin)
 
 # Source
 add_subdirectory(artdaq-epics-plugin)
