@@ -1,5 +1,6 @@
+include_directories($ENV{EPICS_INC}/compiler/gcc)
 include_directories($ENV{EPICS_INC}/os/Linux)
-simple_plugin(epics "metric"
+basic_plugin(epics "metric"
   artdaq-utilities_Plugins
   ${FHICLCPP}
   ${CETLIB}
