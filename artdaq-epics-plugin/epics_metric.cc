@@ -10,6 +10,7 @@
 #include "artdaq-utilities/Plugins/MetricMacros.hh"
 #include "messagefacility/MessageLogger/MessageLogger.h"
 #include <unordered_map>
+#undef STATIC_ASSERT
 #include "cadef.h"
 
 namespace artdaq {
