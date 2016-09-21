@@ -40,8 +40,10 @@ cet_report_compiler_flags()
 
 # these are minimum required versions, not the actual product versions
 find_ups_product( artdaq_utilities        v1_00_00 )
+find_ups_product( fhiclcpp    v3_04_00 )
 find_ups_product( epics       v3_14_12 )
-find_ups_product( cetbuildtools v4_01_03 )
+find_ups_product( cetbuildtools v4_01_03 )                                                                                                                                                                                                                                 
+find_ups_product( messagefacility v1_14_01 )   
 
 find_library( EPICS_CA NAMES ca PATHS $ENV{EPICS_LIBRARY} )
 
