@@ -54,7 +54,7 @@ public:
 		stopMetrics();
 	}
 
-	std::string getLibName() { return "epics"; }
+	std::string getLibName() const { return "epics"; }
 	void stopMetrics_()
 	{
 		for (auto channel : channels_)
@@ -65,7 +65,7 @@ public:
 	}
 	void startMetrics_() {}
 
-	void sendMetric_(std::string name, std::string value, std::string unit)
+	void sendMetric_(const std::string& name, const std::string& value, const std::string& unit)
 	{
 		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
 		std::string tmpValue = value + " " + unit;
@@ -78,7 +78,7 @@ public:
 			SEVCHK(ca_flush_io(), NULL);
 		}
 	}
-	void sendMetric_(std::string name, int value, std::string unit)
+	void sendMetric_(const std::string& name,const int& value, const std::string& unit)
 	{
 		//DBR_LONG
 		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
@@ -94,7 +94,7 @@ public:
 			SEVCHK(ca_flush_io(), NULL);
 		}
 	}
-	void sendMetric_(std::string name, double value, std::string unit)
+	void sendMetric_(const std::string& name,const double& value, const std::string& unit)
 	{
 		//DBR_DOUBLE
 		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
@@ -110,7 +110,7 @@ public:
 			SEVCHK(ca_flush_io(), NULL);
 		}
 	}
-	void sendMetric_(std::string name, float value, std::string unit)
+	void sendMetric_(const std::string& name, const float& value, const std::string& unit)
 	{
 		//DBR_FLOAT
 		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
@@ -126,7 +126,7 @@ public:
 			SEVCHK(ca_flush_io(), NULL);
 		}
 	}
-	void sendMetric_(std::string name, unsigned long int value, std::string unit)
+	void sendMetric_(const std::string& name, const unsigned long int& value, const std::string& unit)
 	{
 		//DBR_LONG, only unsigned type is only 16 bits, use widest integral field
 		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
