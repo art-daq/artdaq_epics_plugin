@@ -18,7 +18,6 @@ class EpicsMetric : public MetricPlugin
 {
 private:
 	std::string prefix_;
-	bool uniquify_;
 	std::unordered_map<std::string, chid> channels_;
 
 	bool checkChannel_(std::string name)
@@ -45,7 +44,6 @@ public:
 	EpicsMetric(fhicl::ParameterSet pset)
 		: MetricPlugin(pset)
 		, prefix_(pset.get<std::string>("channel_name_prefix", "artdaq"))
-		, uniquify_(pset.get<bool>("unique_channel_names", false))
 		, channels_()
 	{}
 
@@ -67,7 +65,7 @@ public:
 
 	void sendMetric_(const std::string& name, const std::string& value, const std::string& unit)
 	{
-		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
+		std::string caName = prefix_ + ":" + name;
 		std::string tmpValue = value + " " + unit;
 
 		if (checkChannel_(caName))
@@ -81,7 +79,7 @@ public:
 	void sendMetric_(const std::string& name,const int& value, const std::string& unit)
 	{
 		//DBR_LONG
-		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
+		std::string caName = prefix_ + ":" + name;
 		if (unit.size() > 0)
 		{
 			mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
@@ -97,7 +95,7 @@ public:
 	void sendMetric_(const std::string& name,const double& value, const std::string& unit)
 	{
 		//DBR_DOUBLE
-		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
+		std::string caName = prefix_ + ":" + name;
 		if (unit.size() > 0)
 		{
 			mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
@@ -113,7 +111,7 @@ public:
 	void sendMetric_(const std::string& name, const float& value, const std::string& unit)
 	{
 		//DBR_FLOAT
-		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
+		std::string caName = prefix_ + ":" + name;
 		if (unit.size() > 0)
 		{
 			mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
@@ -129,7 +127,7 @@ public:
 	void sendMetric_(const std::string& name, const unsigned long int& value, const std::string& unit)
 	{
 		//DBR_LONG, only unsigned type is only 16 bits, use widest integral field
-		std::string caName = prefix_ + ":" + name + (uniquify_ ? "_" + std::to_string(getpid()) : "");
+		std::string caName = prefix_ + ":" + name;
 		if (unit.size() > 0)
 		{
 			mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
