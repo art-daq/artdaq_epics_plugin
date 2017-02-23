@@ -4,6 +4,7 @@ basic_plugin(epics "metric"
   artdaq-utilities_Plugins
   ${FHICLCPP}
   ${CETLIB}
+  ${CETLIB_EXCEPT}
   ${MF_MESSAGELOGGER}
   ${MF_UTILITIES}
   ${EPICS_CA}
