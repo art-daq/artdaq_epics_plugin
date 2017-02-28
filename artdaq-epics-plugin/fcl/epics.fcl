@@ -18,5 +18,4 @@ daq.metrics.epics: { # Can be named anything.
   #
   channel_name_prefix: "artdaq" # The pvNames used for this plugin instance will have the 
                                 # form prefix:name where name is the name of each individual metric
-  unique_channel_names: false   # Use the pid in the pvNames to avoid conflicts: prefix:name.PID
 }
