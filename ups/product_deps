@@ -26,6 +26,8 @@ end_product_list
 # -nq- means there is no qualifier
 # a "-" means the dependent product is not required by the parent and will not be setup
 qualifier	artdaq_utilities	epics	notes
+e14:s46:debug   a_u_intf_v1:e14:s46:debug    	e14      -std=c++14
+e14:s46:prof    a_u_intf_v1:e14:s46:prof     	e14      -std=c++14
 e10:s46:debug   a_u_intf_v1:e10:s46:debug    	e10      -std=c++14
 e10:s46:prof    a_u_intf_v1:e10:s46:prof     	e10      -std=c++14
 e10:s44:debug   a_u_intf_v1:e10:s44:debug    	e10      -std=c++14
