@@ -25,6 +25,7 @@ ENDIF()
 
 set(CMAKE_MODULE_PATH $ENV{ART_DIR}/Modules
 		      $ENV{CETBUILDTOOLS_DIR}/Modules
+			  $ENV{ARTDAQ_UTILITIES_DIR}/Modules
 		      ${CMAKE_MODULE_PATH})
 
 include(CetCMakeEnv)
@@ -58,6 +59,9 @@ include(BasicPlugin)
 
 # Source
 add_subdirectory(artdaq-epics-plugin)
+
+# doc- Documentation
+add_subdirectory(doc)
 
 # ups - table and config files
 add_subdirectory(ups)
