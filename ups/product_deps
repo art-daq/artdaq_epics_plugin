@@ -1,6 +1,6 @@
 # The parent line must be the first non-comment line in the file
 # This line defines the product name and version
-parent artdaq_epics_plugin	v1_01_08
+parent artdaq_epics_plugin	v1_01_08a
 defaultqual	e10:s46
 
 # These optional lines define the installed directories where
@@ -19,13 +19,15 @@ bindir      fq_dir      bin
 product		 version		optional
 artdaq_utilities -
 epics            v3_15_5
-cetbuildtools	 v5_06_07	-	only_for_build
+cetbuildtools	 v5_08_01	-	only_for_build
 end_product_list
 
 # e10 - with gcc 4.9.3a and -std=c++14
 # -nq- means there is no qualifier
 # a "-" means the dependent product is not required by the parent and will not be setup
 qualifier	artdaq_utilities	epics	notes
+e14:s50:debug   a_u_intf_v1:e14:s48:debug    	e14      -std=c++14
+e14:s50:prof    a_u_intf_v1:e14:s48:prof     	e14      -std=c++14
 e14:s48:debug   a_u_intf_v1:e14:s48:debug    	e14      -std=c++14
 e14:s48:prof    a_u_intf_v1:e14:s48:prof     	e14      -std=c++14
 e10:s48:debug   a_u_intf_v1:e10:s48:debug    	e10      -std=c++14

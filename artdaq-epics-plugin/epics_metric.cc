@@ -11,7 +11,7 @@
 #include "messagefacility/MessageLogger/MessageLogger.h"
 #include <unordered_map>
 #undef STATIC_ASSERT
-#include "cadef.h"
+#include <cadef.h>
 
 /**
  * \brief The artdaq namespace
