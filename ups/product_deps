@@ -1,6 +1,6 @@
 # The parent line must be the first non-comment line in the file
 # This line defines the product name and version
-parent artdaq_epics_plugin	v1_02_00
+parent artdaq_epics_plugin	v1_02_01
 defaultqual	e14:s48
 
 # These optional lines define the installed directories where
@@ -17,9 +17,9 @@ bindir      fq_dir      bin
 
 #
 product		 version		optional
-artdaq_utilities v1_04_00
+artdaq_utilities v1_04_01
 epics            v3_15_5
-cetbuildtools	 v6_01_00	-	only_for_build
+cetbuildtools	 v7_00_02	-	only_for_build
 end_product_list
 
 # e10 - with gcc 4.9.3a and -std=c++14
