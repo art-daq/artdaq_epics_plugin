@@ -11,7 +11,15 @@
 #include "messagefacility/MessageLogger/MessageLogger.h"
 #include <unordered_map>
 #undef STATIC_ASSERT
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#endif
 #include <cadef.h>
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 /**
  * \brief The artdaq namespace

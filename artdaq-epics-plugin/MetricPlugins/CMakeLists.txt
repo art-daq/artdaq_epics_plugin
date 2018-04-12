@@ -6,8 +6,7 @@ basic_plugin(epics "metric"
   ${FHICLCPP}
   ${CETLIB}
   ${CETLIB_EXCEPT}
-  ${MF_MESSAGELOGGER}
-  ${MF_UTILITIES}
+  ${MESSAGEFACILITY_LIBS}
   ${EPICS_CA}
 )
 
