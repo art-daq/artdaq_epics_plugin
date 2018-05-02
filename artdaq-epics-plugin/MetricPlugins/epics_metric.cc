@@ -59,9 +59,10 @@ namespace artdaq
 		/**
 		 * \brief Construct an instance of the EpicsMetric plugin.
 		 * \param pset Parameter set to configure with. MetricPlugin parameters plus "channel_name_prefix", default "artdaq".
+		 * \param app_name Name of the application sending metrics
 		 */
-		explicit EpicsMetric(fhicl::ParameterSet pset)
-			: MetricPlugin(pset)
+		explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name)
+			: MetricPlugin(pset, app_name)
 			, prefix_(pset.get<std::string>("channel_name_prefix", "artdaq"))
 			, channels_() {}
 
