@@ -40,8 +40,8 @@ namespace artdaq
 			if (!channels_.count(name))
 			{
 				chid channel;
-				auto sts = ca_search(name.c_str(), &channel);
-				sts = ca_pend_io(5.0);
+				ca_search(name.c_str(), &channel);
+				auto sts = ca_pend_io(5.0);
 				if (sts != ECA_NORMAL)
 				{
 					SEVCHK(ca_clear_channel(channel), NULL);
