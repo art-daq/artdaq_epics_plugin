@@ -18,16 +18,20 @@ bindir      fq_dir      bin
 #
 product		 version		optional
 artdaq_utilities v1_04_09
-epics            v3_16_1c
-cetbuildtools	 v7_02_01	-	only_for_build
+epics            v3_16_2
+cetbuildtools	 v7_12_01	-	only_for_build
 end_product_list
 
 # e10 - with gcc 4.9.3a and -std=c++14
 # -nq- means there is no qualifier
 # a "-" means the dependent product is not required by the parent and will not be setup
 qualifier	artdaq_utilities	epics	notes
+c7:s82:debug   c7:s82:debug    	c7      -std=c++17
+c7:s82:prof    c7:s82:prof     	c7      -std=c++17
 c2:s82:debug   c2:s82:debug    	c2      -std=c++17
 c2:s82:prof    c2:s82:prof     	c2      -std=c++17
+e19:s82:debug   e19:s82:debug    	e19      -std=c++17
+e19:s82:prof    e19:s82:prof     	e19      -std=c++17
 e17:s82:debug   e17:s82:debug    	e17      -std=c++17
 e17:s82:prof    e17:s82:prof     	e17      -std=c++17
 c2:s73:debug   c2:s73:debug    	c2      -std=c++17
