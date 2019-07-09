@@ -61,6 +61,7 @@ find_ups_product( fhiclcpp    v3_04_00 )
 find_ups_product( epics       v3_14_12 )
 find_ups_product( cetbuildtools v4_01_03 )
 find_ups_product( messagefacility v1_14_01 )
+find_ups_product( TRACE v3_13_00 )
 
 find_library( EPICS_CA NAMES ca PATHS $ENV{EPICS_LIBRARY} )
 include_directories($ENV{EPICS_INC}/compiler/gcc $ENV{EPICS_INC}/compiler/clang)
