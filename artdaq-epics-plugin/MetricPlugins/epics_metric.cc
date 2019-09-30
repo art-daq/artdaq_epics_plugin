@@ -7,6 +7,9 @@
 #ifndef __EPICS_METRIC__
 #define __EPICS_METRIC__ 1
 
+#include "TRACE/tracemf.h"  // order matters -- trace.h (no "mf") is nested from MetricMacros.hh
+#define TRACE_NAME (app_name_ + "_epics_metric").c_str()
+
 #include <unordered_map>
 #include "artdaq-utilities/Plugins/MetricMacros.hh"
 #include "messagefacility/MessageLogger/MessageLogger.h"
@@ -40,7 +43,7 @@ class EpicsMetric : public MetricPlugin {
       auto sts = ca_pend_io(5.0);
       if (sts != ECA_NORMAL) {
         SEVCHK(ca_clear_channel(channel), NULL);
-        mf::LogWarning("EPICS Plugin") << "Channel " << name << " not found!";
+        METLOG(TLVL_WARNING) << "Channel " << name << " not found!";
         channels_[name] = nullptr;
         return false;
       }
@@ -56,8 +59,10 @@ class EpicsMetric : public MetricPlugin {
    * \param pset Parameter set to configure with. MetricPlugin parameters plus "channel_name_prefix", default "artdaq".
    * \param app_name Name of the application sending metrics
    */
-  explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name)
-      : MetricPlugin(pset, app_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_() {}
+  explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
+      : MetricPlugin(pset, app_name, metric_name),
+        prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")),
+        channels_() {}
 
   virtual ~EpicsMetric() { MetricPlugin::stopMetrics(); }
 
@@ -120,7 +125,7 @@ class EpicsMetric : public MetricPlugin {
     // DBR_LONG
     std::string caName = prefix_ + ":" + name;
     if (unit.size() > 0) {
-      mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+      METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
     }
 
     if (checkChannel_(caName)) {
@@ -144,7 +149,7 @@ class EpicsMetric : public MetricPlugin {
     // DBR_DOUBLE
     std::string caName = prefix_ + ":" + name;
     if (unit.size() > 0) {
-      mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+      METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
     }
 
     if (checkChannel_(caName)) {
@@ -168,7 +173,7 @@ class EpicsMetric : public MetricPlugin {
     // DBR_FLOAT
     std::string caName = prefix_ + ":" + name;
     if (unit.size() > 0) {
-      mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+      METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
     }
 
     if (checkChannel_(caName)) {
@@ -192,7 +197,7 @@ class EpicsMetric : public MetricPlugin {
     // DBR_LONG, only unsigned type is only 16 bits, use widest integral field
     std::string caName = prefix_ + ":" + name;
     if (unit.size() > 0) {
-      mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+      METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
     }
 
     if (checkChannel_(caName)) {
