@@ -3,3 +3,4 @@
 *.vcxproj*
 bin/*
 obj/*
+.vscode
