@@ -57,6 +57,16 @@ private:
 		return channels_[name] != nullptr;
 	}
 
+	std::string parseChannelName_(std::string prefix_, std::string name)
+	{
+		std::string caName = name;
+		if (name.find(".")) caName = name.replace(name.find("."),1,"_");
+		//if (!prefix_.compare("")) caName = prefix_ + "_" + caName;
+		caName = prefix_ + "_" + caName;
+		mf::LogDebug("EPICS Plugin") << "Channel name is: " << caName; 
+		return caName;
+	}
+
 public:
 	/**
    * \brief Construct an instance of the EpicsMetric plugin.
@@ -103,7 +113,9 @@ public:
    */
 	void sendMetric_(const std::string& name, const std::string& value, const std::string& unit) override
 	{
-		std::string caName = prefix_ + ":" + name;
+		//std::string caName = prefix_ + ":" + name;
+		std::string caName = parseChannelName_(prefix_, name);
+
 		std::string tmpValue = value + " " + unit;
 
 		if (checkChannel_(caName))
@@ -131,7 +143,9 @@ public:
 	void sendMetric_(const std::string& name, const int& value, const std::string& unit) override
 	{
 		// DBR_LONG
-		std::string caName = prefix_ + ":" + name;
+		//std::string caName = prefix_ + ":" + name;
+		std::string caName = parseChannelName_(prefix_, name);
+
 		if (unit.size() > 0)
 		{
 			METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
@@ -158,7 +172,9 @@ public:
 	void sendMetric_(const std::string& name, const double& value, const std::string& unit) override
 	{
 		// DBR_DOUBLE
-		std::string caName = prefix_ + ":" + name;
+		//std::string caName = prefix_ + ":" + name;
+		std::string caName = parseChannelName_(prefix_, name);
+
 		if (unit.size() > 0)
 		{
 			METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
@@ -185,7 +201,9 @@ public:
 	void sendMetric_(const std::string& name, const float& value, const std::string& unit) override
 	{
 		// DBR_FLOAT
-		std::string caName = prefix_ + ":" + name;
+		//std::string caName = prefix_ + ":" + name;
+		std::string caName = parseChannelName_(prefix_, name);
+
 		if (unit.size() > 0)
 		{
 			METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
@@ -212,7 +230,9 @@ public:
 	void sendMetric_(const std::string& name, const unsigned long int& value, const std::string& unit) override
 	{
 		// DBR_LONG, only unsigned type is only 16 bits, use widest integral field
-		std::string caName = prefix_ + ":" + name;
+		//std::string caName = prefix_ + ":" + name;
+		std::string caName = parseChannelName_(prefix_, name);
+
 		if (unit.size() > 0)
 		{
 			METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
