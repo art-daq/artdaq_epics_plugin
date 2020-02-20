@@ -57,10 +57,10 @@ private:
 	std::string parseChannelName_(std::string prefix_, std::string name)
 	{
 		std::string caName = name;
-		if (name.find(".")) caName = name.replace(name.find("."),1,"_");
+		if (name.find(".")) caName = name.replace(name.find("."), 1, "_");
 		//if (!prefix_.compare("")) caName = prefix_ + "_" + caName;
 		caName = prefix_ + "_" + caName;
-		mf::LogDebug("EPICS Plugin") << "Channel name is: " << caName; 
+		mf::LogDebug("EPICS Plugin") << "Channel name is: " << caName;
 		return caName;
 	}
 
