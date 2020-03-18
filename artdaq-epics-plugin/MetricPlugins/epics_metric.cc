@@ -21,6 +21,9 @@
 #pragma clang diagnostic pop
 #endif
 
+#include "TRACE/tracemf.h"
+#define TRACE_NAME "EPICSMetric"
+
 /**
  * \brief The artdaq namespace
  */
@@ -44,7 +47,7 @@ private:
 			if (sts != ECA_NORMAL)
 			{
 				SEVCHK(ca_clear_channel(channel), NULL);
-				mf::LogWarning("EPICS Plugin") << "Channel " << name << " not found!";
+				TLOG(TLVL_WARNING) << "Channel \"" << name << "\" not found!";
 				channels_[name] = nullptr;
 				return false;
 			}
@@ -60,7 +63,7 @@ private:
 		if (name.find(".")) caName = name.replace(name.find("."),1,"_");
 		//if (!prefix_.compare("")) caName = prefix_ + "_" + caName;
 		caName = prefix_ + "_" + caName;
-		mf::LogDebug("EPICS Plugin") << "Channel name is: " << caName; 
+		TLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\""; 
 		return caName;
 	}
 
@@ -145,7 +148,7 @@ public:
 
 		if (unit.size() > 0)
 		{
-			mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			TLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -174,7 +177,7 @@ public:
 
 		if (unit.size() > 0)
 		{
-			mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			TLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -203,7 +206,7 @@ public:
 
 		if (unit.size() > 0)
 		{
-			mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			TLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -232,7 +235,7 @@ public:
 
 		if (unit.size() > 0)
 		{
-			mf::LogDebug("EPICS Plugin") << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			TLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
