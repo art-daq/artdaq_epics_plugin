@@ -63,7 +63,7 @@ private:
 		if (name.find(".")) caName = name.replace(name.find("."), 1, "_");
 		//if (!prefix_.compare("")) caName = prefix_ + "_" + caName;
 		caName = prefix_ + "_" + caName;
-		TLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\""; 
+		TLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\"";
 		return caName;
 	}
 
