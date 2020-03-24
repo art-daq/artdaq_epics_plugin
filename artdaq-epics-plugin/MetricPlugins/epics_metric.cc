@@ -47,7 +47,7 @@ private:
 			if (sts != ECA_NORMAL)
 			{
 				SEVCHK(ca_clear_channel(channel), NULL);
-				METLOG(TLVL_WARNING) << "Channel " << name << " not found!";
+				METLOG(TLVL_WARNING) << "Channel \"" << name << "\" not found!";
 				channels_[name] = nullptr;
 				return false;
 			}
@@ -63,7 +63,7 @@ private:
 		if (name.find(".")) caName = name.replace(name.find("."), 1, "_");
 		//if (!prefix_.compare("")) caName = prefix_ + "_" + caName;
 		caName = prefix_ + "_" + caName;
-		mf::LogDebug("EPICS Plugin") << "Channel name is: " << caName;
+		METLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\""; 
 		return caName;
 	}
 
