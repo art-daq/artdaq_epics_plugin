@@ -60,10 +60,14 @@ private:
 	std::string parseChannelName_(std::string prefix_, std::string name)
 	{
 		std::string caName = name;
-		if (name.find(".")) caName = name.replace(name.find("."), 1, "_");
-		//if (!prefix_.compare("")) caName = prefix_ + "_" + caName;
-		caName = prefix_ + "_" + caName;
-		TLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\""; 
+		std::string caPrefix_ = prefix_;
+
+		while (caName.find(" ") !=  std::string::npos) caName = caName.replace(caName.find(" "), 1, "_");
+		if (caName.find(".") != std::string::npos) caName = caName.replace(caName.find("."), 1, ":");
+		if (caName.find("_%") != std::string::npos) caName = caName.replace(caName.find("_%"), 2, "");
+		caName = caPrefix_ + ":" + caName;
+
+		TLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\"";
 		return caName;
 	}
 
@@ -91,7 +95,9 @@ public:
 	{
 		for (auto channel : channels_)
 		{
-			SEVCHK(ca_clear_channel(channel.second), NULL);
+			if(channel.second != 0) {
+				SEVCHK(ca_clear_channel(channel.second), NULL);
+			}
 		}
 		channels_.clear();
 	}
