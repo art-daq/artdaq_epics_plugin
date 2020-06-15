@@ -7,10 +7,10 @@
 #ifndef __EPICS_METRIC__
 #define __EPICS_METRIC__ 1
 
-#include "artdaq-utilities/Plugins/MetricMacros.hh"
-#include "messagefacility/MessageLogger/MessageLogger.h"
 #include <unordered_map>
 #include <utility>
+#include "artdaq-utilities/Plugins/MetricMacros.hh"
+#include "messagefacility/MessageLogger/MessageLogger.h"
 #undef STATIC_ASSERT
 
 #ifdef __clang__
@@ -63,17 +63,28 @@ private:
 		std::string caName = std::move(name);
 		const std::string& caPrefix_ = std::move(prefix_);
 
-		while (caName.find(' ') !=  std::string::npos) { caName = caName.replace(caName.find(' '), 1, "_");
-}
-		if (caName.find('.') != std::string::npos) { caName = caName.replace(caName.find('.'), 1, ":");
-}
-		if (caName.find("_%") != std::string::npos) { caName = caName.replace(caName.find("_%"), 2, "");
-}
+		while (caName.find(' ') != std::string::npos)
+		{
+			caName = caName.replace(caName.find(' '), 1, "_");
+		}
+		if (caName.find('.') != std::string::npos)
+		{
+			caName = caName.replace(caName.find('.'), 1, ":");
+		}
+		if (caName.find("_%") != std::string::npos)
+		{
+			caName = caName.replace(caName.find("_%"), 2, "");
+		}
 		caName = caPrefix_ + ":" + caName;
 
 		TLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\"";
 		return caName;
 	}
+
+	EpicsMetric(EpicsMetric const&) = delete;
+	EpicsMetric(EpicsMetric&&) = delete;
+	EpicsMetric& operator=(EpicsMetric const&) = delete;
+	EpicsMetric& operator=(EpicsMetric&&) = delete;
 
 public:
 	/**
@@ -99,7 +110,8 @@ public:
 	{
 		for (const auto& channel : channels_)
 		{
-			if(channel.second != 0) {
+			if (channel.second != 0)
+			{
 				SEVCHK(ca_clear_channel(channel.second), NULL);
 			}
 		}
@@ -237,7 +249,7 @@ public:
    * If the named channel is not yet open, it will be opened. If the channel is not registered with an
    * IOC, then the metric data will not be sent and a warning message will be printed the first time.
    */
-	void sendMetric_(const std::string& name, const unsigned long int& value, const std::string& unit) override
+	void sendMetric_(const std::string& name, const uint64_t& value, const std::string& unit) override
 	{
 		// DBR_LONG, only unsigned type is only 16 bits, use widest integral field
 		//std::string caName = prefix_ + ":" + name;
