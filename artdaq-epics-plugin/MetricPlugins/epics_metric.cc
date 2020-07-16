@@ -64,6 +64,7 @@ private:
 
 		while (caName.find(" ") !=  std::string::npos) caName = caName.replace(caName.find(" "), 1, "_");
 		if (caName.find(".") != std::string::npos) caName = caName.replace(caName.find("."), 1, ":");
+		if (caName.find("/") != std::string::npos) caName = caName.replace(caName.find("/"), 1, "_");
 		if (caName.find("_%") != std::string::npos) caName = caName.replace(caName.find("_%"), 2, "");
 		caName = caPrefix_ + ":" + caName;
 
