@@ -67,11 +67,15 @@ private:
 		{
 			caName = caName.replace(caName.find(' '), 1, "_");
 		}
-		if (caName.find('.') != std::string::npos)
+		while (caName.find('.') != std::string::npos)
 		{
 			caName = caName.replace(caName.find('.'), 1, ":");
 		}
-		if (caName.find("_%") != std::string::npos)
+		while (caName.find('/') != std::string::npos)
+		{
+			caName = caName.replace(caName.find('/'), 1, "_");
+		}
+		while (caName.find("_%") != std::string::npos)
 		{
 			caName = caName.replace(caName.find("_%"), 2, "");
 		}
