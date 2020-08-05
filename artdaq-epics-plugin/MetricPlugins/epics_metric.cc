@@ -16,10 +16,15 @@
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
+#elif __GNUC__ > 9
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-copy"
 #endif
 #include <cadef.h>
 #ifdef __clang__
 #pragma clang diagnostic pop
+#elif __GNUC__ > 9
+#pragma GCC diagnostic pop
 #endif
 
 #include "TRACE/tracemf.h"
