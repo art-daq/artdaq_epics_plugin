@@ -11,6 +11,7 @@
 #define TRACE_NAME (app_name_ + "_epics_metric").c_str()
 
 #include <unordered_map>
+#include <utility>
 #include "artdaq-utilities/Plugins/MetricMacros.hh"
 #include "messagefacility/MessageLogger/MessageLogger.h"
 #undef STATIC_ASSERT
@@ -37,9 +38,9 @@ private:
 	std::string prefix_;
 	std::unordered_map<std::string, chid> channels_;
 
-	bool checkChannel_(std::string name)
+	bool checkChannel_(const std::string& name)
 	{
-		if (!channels_.count(name))
+		if (channels_.count(name) == 0u)
 		{
 			chid channel;
 			ca_search(name.c_str(), &channel);
@@ -59,13 +60,35 @@ private:
 
 	std::string parseChannelName_(std::string prefix_, std::string name)
 	{
-		std::string caName = name;
-		if (name.find(".")) caName = name.replace(name.find("."), 1, "_");
-		//if (!prefix_.compare("")) caName = prefix_ + "_" + caName;
-		caName = prefix_ + "_" + caName;
-		METLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\"";
+		std::string caName = std::move(name);
+		const std::string& caPrefix_ = std::move(prefix_);
+
+		while (caName.find(' ') != std::string::npos)
+		{
+			caName = caName.replace(caName.find(' '), 1, "_");
+		}
+		while (caName.find('.') != std::string::npos)
+		{
+			caName = caName.replace(caName.find('.'), 1, ":");
+		}
+		while (caName.find('/') != std::string::npos)
+		{
+			caName = caName.replace(caName.find('/'), 1, "_");
+		}
+		while (caName.find("_%") != std::string::npos)
+		{
+			caName = caName.replace(caName.find("_%"), 2, "");
+		}
+		caName = caPrefix_ + ":" + caName;
+
+		TLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\"";
 		return caName;
 	}
+
+	EpicsMetric(EpicsMetric const&) = delete;
+	EpicsMetric(EpicsMetric&&) = delete;
+	EpicsMetric& operator=(EpicsMetric const&) = delete;
+	EpicsMetric& operator=(EpicsMetric&&) = delete;
 
 public:
 	/**
@@ -76,7 +99,7 @@ public:
 	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
 	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_() {}
 
-	virtual ~EpicsMetric() { MetricPlugin::stopMetrics(); }
+	~EpicsMetric() override { MetricPlugin::stopMetrics(); }
 
 	/**
    * \brief Gets the unique library name of this plugin
@@ -89,9 +112,12 @@ public:
    */
 	void stopMetrics_() override
 	{
-		for (auto channel : channels_)
+		for (const auto& channel : channels_)
 		{
-			SEVCHK(ca_clear_channel(channel.second), NULL);
+			if (channel.second != 0)
+			{
+				SEVCHK(ca_clear_channel(channel.second), NULL);
+			}
 		}
 		channels_.clear();
 	}
@@ -146,14 +172,14 @@ public:
 		//std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
-		if (unit.size() > 0)
+		if (!unit.empty())
 		{
 			METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
 		{
-			dbr_long_t val = static_cast<dbr_long_t>(value);
+			auto val = static_cast<dbr_long_t>(value);
 			SEVCHK(ca_put(DBR_LONG, channels_[caName], &val), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
@@ -175,14 +201,14 @@ public:
 		//std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
-		if (unit.size() > 0)
+		if (!unit.empty())
 		{
 			METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
 		{
-			dbr_double_t val = static_cast<dbr_double_t>(value);
+			auto val = static_cast<dbr_double_t>(value);
 			SEVCHK(ca_put(DBR_DOUBLE, channels_[caName], &val), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
@@ -204,14 +230,14 @@ public:
 		//std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
-		if (unit.size() > 0)
+		if (!unit.empty())
 		{
 			METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
 		{
-			dbr_float_t val = static_cast<dbr_float_t>(value);
+			auto val = static_cast<dbr_float_t>(value);
 			SEVCHK(ca_put(DBR_FLOAT, channels_[caName], &val), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
@@ -227,20 +253,20 @@ public:
    * If the named channel is not yet open, it will be opened. If the channel is not registered with an
    * IOC, then the metric data will not be sent and a warning message will be printed the first time.
    */
-	void sendMetric_(const std::string& name, const unsigned long int& value, const std::string& unit) override
+	void sendMetric_(const std::string& name, const uint64_t& value, const std::string& unit) override
 	{
 		// DBR_LONG, only unsigned type is only 16 bits, use widest integral field
 		//std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
-		if (unit.size() > 0)
+		if (!unit.empty())
 		{
 			METLOG(TLVL_DEBUG) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
 		{
-			dbr_ulong_t val = static_cast<dbr_ulong_t>(value);
+			auto val = static_cast<dbr_ulong_t>(value);
 			SEVCHK(ca_put(DBR_LONG, channels_[caName], &val), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
