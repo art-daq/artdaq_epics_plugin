@@ -65,12 +65,6 @@ private:
 
 	std::string parseChannelName_(std::string prefix_, std::string name)
 	{
-<<<<<<< HEAD
-		std::string caName = name;
-		if (name.find(".")) caName = name.replace(name.find("."), 1, "_");
-		//if (!prefix_.compare("")) caName = prefix_ + "_" + caName;
-		caName = prefix_ + "_" + caName;
-=======
 		std::string caName = std::move(name);
 		const std::string& caPrefix_ = std::move(prefix_);
 
@@ -92,7 +86,6 @@ private:
 		}
 		caName = caPrefix_ + ":" + caName;
 
->>>>>>> develop
 		TLOG(TLVL_DEBUG) << "Channel name is: \"" << caName << "\"";
 		return caName;
 	}
