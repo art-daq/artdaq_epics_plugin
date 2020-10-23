@@ -97,6 +97,9 @@ add_subdirectory(artdaq-epics-plugin)
 # doc- Documentation
 add_subdirectory(doc)
 
+# scripts - Helpful scripts
+add_subdirectory(scripts)
+
 # ups - table and config files
 add_subdirectory(ups)
 
