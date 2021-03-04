@@ -142,7 +142,7 @@ public:
    * If the named channel is not yet open, it will be opened. If the channel is not registered with an
    * IOC, then the metric data will not be sent and a warning message will be printed the first time.
    */
-	void sendMetric_(const std::string& name, const std::string& value, const std::string& unit) override
+	void sendMetric_(const std::string& name, const std::string& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		//std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
@@ -171,7 +171,7 @@ public:
    * If the named channel is not yet open, it will be opened. If the channel is not registered with an
    * IOC, then the metric data will not be sent and a warning message will be printed the first time.
    */
-	void sendMetric_(const std::string& name, const int& value, const std::string& unit) override
+	void sendMetric_(const std::string& name, const int& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		// DBR_LONG
 		//std::string caName = prefix_ + ":" + name;
@@ -200,7 +200,7 @@ public:
    * If the named channel is not yet open, it will be opened. If the channel is not registered with an
    * IOC, then the metric data will not be sent and a warning message will be printed the first time.
    */
-	void sendMetric_(const std::string& name, const double& value, const std::string& unit) override
+	void sendMetric_(const std::string& name, const double& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		// DBR_DOUBLE
 		//std::string caName = prefix_ + ":" + name;
@@ -229,7 +229,7 @@ public:
    * If the named channel is not yet open, it will be opened. If the channel is not registered with an
    * IOC, then the metric data will not be sent and a warning message will be printed the first time.
    */
-	void sendMetric_(const std::string& name, const float& value, const std::string& unit) override
+	void sendMetric_(const std::string& name, const float& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		// DBR_FLOAT
 		//std::string caName = prefix_ + ":" + name;
@@ -258,7 +258,7 @@ public:
    * If the named channel is not yet open, it will be opened. If the channel is not registered with an
    * IOC, then the metric data will not be sent and a warning message will be printed the first time.
    */
-	void sendMetric_(const std::string& name, const uint64_t& value, const std::string& unit) override
+	void sendMetric_(const std::string& name, const uint64_t& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		// DBR_LONG, only unsigned type is only 16 bits, use widest integral field
 		//std::string caName = prefix_ + ":" + name;
