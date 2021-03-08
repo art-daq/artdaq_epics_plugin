@@ -16,54 +16,54 @@ libdir      fq_dir      lib
 bindir      fq_dir      bin
 
 #
-product		 version		optional
-artdaq_utilities v1_05_11
-epics            -
-cetbuildtools	 v7_17_01	-	only_for_build
+product				version		optional
+artdaq_utilities	v1_05_11
+epics				v3_15_8
+cetbuildtools		v7_17_01	-	only_for_build
 end_product_list
 
 # e10 - with gcc 4.9.3a and -std=c++14
 # -nq- means there is no qualifier
 # a "-" means the dependent product is not required by the parent and will not be setup
-qualifier	artdaq_utilities	epics	notes
-c7:s106:debug   c7:s106:debug    	c7      -std=c++17
-c7:s106:prof    c7:s106:prof     	c7      -std=c++17
-e20:s106:debug   e20:s106:debug    	e20      -std=c++17
-e20:s106:prof    e20:s106:prof     	e20      -std=c++17
-e19:s106:debug   e19:s106:debug    	e19      -std=c++17
-e19:s106:prof    e19:s106:prof     	e19      -std=c++17
+qualifier			artdaq_utilities	epics	notes
+c7:s106:debug		c7:s106:debug		c7		-std=c++17
+c7:s106:prof		c7:s106:prof		c7		-std=c++17
+e20:s106:debug		e20:s106:debug		e20		-std=c++17
+e20:s106:prof		e20:s106:prof		e20		-std=c++17
+e19:s106:debug		e19:s106:debug		e19		-std=c++17
+e19:s106:prof		e19:s106:prof		e19		-std=c++17
 
-c7:s105:debug   c7:s105:debug    	c7      -std=c++17
-c7:s105:prof    c7:s105:prof     	c7      -std=c++17
-e20:s105:debug   e20:s105:debug    	e20      -std=c++17
-e20:s105:prof    e20:s105:prof     	e20      -std=c++17
-e19:s105:debug   e19:s105:debug    	e19      -std=c++17
-e19:s105:prof    e19:s105:prof     	e19      -std=c++17
+c7:s105:debug		c7:s105:debug		c7		-std=c++17
+c7:s105:prof		c7:s105:prof		c7		-std=c++17
+e20:s105:debug		e20:s105:debug		e20		-std=c++17
+e20:s105:prof		e20:s105:prof		e20		-std=c++17
+e19:s105:debug		e19:s105:debug		e19		-std=c++17
+e19:s105:prof		e19:s105:prof		e19		-std=c++17
 
-c7:s104:debug   c7:s104:debug    	c7      -std=c++17
-c7:s104:prof    c7:s104:prof     	c7      -std=c++17
-e20:s104:debug   e20:s104:debug    	e20      -std=c++17
-e20:s104:prof    e20:s104:prof     	e20      -std=c++17
-e19:s104:debug   e19:s104:debug    	e19      -std=c++17
-e19:s104:prof    e19:s104:prof     	e19      -std=c++17
+c7:s104:debug		c7:s104:debug		c7		-std=c++17
+c7:s104:prof		c7:s104:prof		c7		-std=c++17
+e20:s104:debug		e20:s104:debug		e20		-std=c++17
+e20:s104:prof		e20:s104:prof		e20		-std=c++17
+e19:s104:debug		e19:s104:debug		e19		-std=c++17
+e19:s104:prof		e19:s104:prof		e19		-std=c++17
 
-c7:s103:debug   c7:s103:debug    	c7      -std=c++17
-c7:s103:prof    c7:s103:prof     	c7      -std=c++17
-e19:s103:debug   e19:s103:debug    	e19      -std=c++17
-e19:s103:prof    e19:s103:prof     	e19      -std=c++17
-c7:s103:py2:debug   c7:s103:py2:debug    	c7      -std=c++17
-c7:s103:py2:prof    c7:s103:py2:prof     	c7      -std=c++17
-e19:s103:py2:debug   e19:s103:py2:debug    	e19      -std=c++17
-e19:s103:py2:prof    e19:s103:py2:prof     	e19      -std=c++17
+c7:s103:debug		c7:s103:debug		c7		-std=c++17
+c7:s103:prof		c7:s103:prof		c7		-std=c++17
+e19:s103:debug		e19:s103:debug		e19		-std=c++17
+e19:s103:prof		e19:s103:prof		e19		-std=c++17
+c7:s103:py2:debug	c7:s103:py2:debug	c7		-std=c++17
+c7:s103:py2:prof	c7:s103:py2:prof	c7		-std=c++17
+e19:s103:py2:debug	e19:s103:py2:debug	e19		-std=c++17
+e19:s103:py2:prof	e19:s103:py2:prof	e19		-std=c++17
 
-c7:s97:debug   c7:s97:debug    	c7      -std=c++17
-c7:s97:prof    c7:s97:prof     	c7      -std=c++17
-e19:s97:debug   e19:s97:debug    	e19      -std=c++17
-e19:s97:prof    e19:s97:prof     	e19      -std=c++17
-c7:s97:py2:debug   c7:s97:py2:debug    	c7      -std=c++17
-c7:s97:py2:prof    c7:s97:py2:prof     	c7      -std=c++17
-e19:s97:py2:debug   e19:s97:py2:debug    	e19      -std=c++17
-e19:s97:py2:prof    e19:s97:py2:prof     	e19      -std=c++17
+c7:s97:debug		c7:s97:debug		c7		-std=c++17
+c7:s97:prof			c7:s97:prof			c7		-std=c++17
+e19:s97:debug		e19:s97:debug		e19		-std=c++17
+e19:s97:prof		e19:s97:prof		e19		-std=c++17
+c7:s97:py2:debug	c7:s97:py2:debug	c7		-std=c++17
+c7:s97:py2:prof		c7:s97:py2:prof		c7		-std=c++17
+e19:s97:py2:debug	e19:s97:py2:debug	e19		-std=c++17
+e19:s97:py2:prof	e19:s97:py2:prof	e19		-std=c++17
 
 end_qualifier_list
 
