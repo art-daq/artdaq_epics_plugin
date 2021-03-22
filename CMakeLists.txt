@@ -13,10 +13,11 @@
 #  make package
 # ======================================================================
 
-# use cmake 2.8 or later
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.17)
 
-project(artdaq-epics-plugin)
+find_package(cetbuildtools)
+
+project(artdaq_epics_plugin VERSION 1.02.18)
 # cetbuildtools contains our cmake modules
 SET ( CETBUILDTOOLS_VERSION $ENV{CETBUILDTOOLS_VERSION} )
 IF (NOT CETBUILDTOOLS_VERSION)
