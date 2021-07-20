@@ -3,11 +3,11 @@ include_directories($ENV{EPICS_INC}/os/Linux)
 
 basic_plugin(epics "metric"
   artdaq_utilities::artdaq-utilities_Plugins
-  ${FHICLCPP}
-  ${CETLIB}
-  ${CETLIB_EXCEPT}
-  ${MF_MESSAGELOGGER}
-  ${EPICS_CA}
+  fhiclcpp
+  cetlib
+  cetlib_except
+  MF_MessageLogger
+  ca
 )
 
 install_fhicl(LIST fcl/epics.fcl)

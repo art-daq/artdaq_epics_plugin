@@ -31,7 +31,6 @@ set(CMAKE_MODULE_PATH $ENV{ART_DIR}/Modules
 
 include(CetCMakeEnv)
 cet_cmake_env()
-set(artdaq_epics_plugin_OLD_STYLE_CONFIG_VARS TRUE)
 
 cet_set_compiler_flags(DIAGS VIGILANT
   WERROR
@@ -72,7 +71,7 @@ find_ups_product( cetbuildtools v4_01_03 )
 find_ups_product( messagefacility v1_14_01 )
 find_ups_product( TRACE v3_13_00 )
 
-find_library( EPICS_CA NAMES ca PATHS $ENV{EPICS_LIBRARY} )
+link_directories($ENV{EPICS_LIB})
 include_directories($ENV{EPICS_INC}/compiler/gcc $ENV{EPICS_INC}/compiler/clang)
 
 string(REGEX MATCHALL "[0-9][0-9]?[0-9]?" MESSAGEFACILITY_VERSION_LIST "$ENV{MESSAGEFACILITY_VERSION}")
