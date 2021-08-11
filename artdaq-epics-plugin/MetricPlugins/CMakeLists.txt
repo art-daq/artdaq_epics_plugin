@@ -2,12 +2,12 @@ include_directories($ENV{EPICS_INC}/compiler/gcc)
 include_directories($ENV{EPICS_INC}/os/Linux)
 
 basic_plugin(epics "metric"
-  artdaq-utilities_Plugins
-  ${FHICLCPP}
-  ${CETLIB}
-  ${CETLIB_EXCEPT}
-  ${MESSAGEFACILITY_LIBS}
-  ${EPICS_CA}
+  artdaq_utilities::artdaq-utilities_Plugins
+  fhiclcpp
+  cetlib
+  cetlib_except
+  MF_MessageLogger
+  ca
 )
 
 install_fhicl(LIST fcl/epics.fcl)
