@@ -17,7 +17,7 @@ cmake_minimum_required (VERSION 3.17)
 
 find_package(cetbuildtools)
 
-project(artdaq_epics_plugin VERSION 1.03.02)
+project(artdaq_epics_plugin VERSION 1.03.03)
 # cetbuildtools contains our cmake modules
 SET ( CETBUILDTOOLS_VERSION $ENV{CETBUILDTOOLS_VERSION} )
 IF (NOT CETBUILDTOOLS_VERSION)
@@ -31,7 +31,6 @@ set(CMAKE_MODULE_PATH $ENV{ART_DIR}/Modules
 
 include(CetCMakeEnv)
 cet_cmake_env()
-set(artdaq_epics_plugin_OLD_STYLE_CONFIG_VARS TRUE)
 
 cet_set_compiler_flags(DIAGS VIGILANT
   WERROR
@@ -65,6 +64,7 @@ endif()
 #cet_report_compiler_flags()
 
 # these are minimum required versions, not the actual product versions
+find_ups_boost(v1_53_0)
 find_ups_product( artdaq_utilities        v1_00_00 )
 find_ups_product( fhiclcpp    v3_04_00 )
 find_ups_product( epics       v3_14_12 )
@@ -72,7 +72,7 @@ find_ups_product( cetbuildtools v4_01_03 )
 find_ups_product( messagefacility v1_14_01 )
 find_ups_product( TRACE v3_13_00 )
 
-find_library( EPICS_CA NAMES ca PATHS $ENV{EPICS_LIBRARY} )
+link_directories($ENV{EPICS_LIB})
 include_directories($ENV{EPICS_INC}/compiler/gcc $ENV{EPICS_INC}/compiler/clang)
 
 string(REGEX MATCHALL "[0-9][0-9]?[0-9]?" MESSAGEFACILITY_VERSION_LIST "$ENV{MESSAGEFACILITY_VERSION}")
