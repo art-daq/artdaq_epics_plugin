@@ -1,1 +1,1 @@
-cet_script(declare_epics_current.sh)
+cet_script(ALWAYS_COPY declare_epics_current.sh)
