@@ -100,6 +100,7 @@ public:
    * \brief Construct an instance of the EpicsMetric plugin.
    * \param pset Parameter set to configure with. MetricPlugin parameters plus "channel_name_prefix", default "artdaq".
    * \param app_name Name of the application sending metrics
+   * \param metric_name Name of this metric instance
    */
 	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
 	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_() {}
