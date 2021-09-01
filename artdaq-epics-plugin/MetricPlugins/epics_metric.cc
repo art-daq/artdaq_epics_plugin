@@ -7,6 +7,9 @@
 #ifndef __EPICS_METRIC__
 #define __EPICS_METRIC__ 1
 
+#include "TRACE/tracemf.h"  // order matters -- trace.h (no "mf") is nested from MetricMacros.hh
+#define TRACE_NAME (app_name_ + "_epics_metric").c_str()
+
 #include <unordered_map>
 #include <utility>
 #include "artdaq-utilities/Plugins/MetricMacros.hh"
@@ -26,9 +29,6 @@
 #elif __GNUC__ > 9
 #pragma GCC diagnostic pop
 #endif
-
-#include "TRACE/tracemf.h"
-#define TRACE_NAME "EPICSMetric"
 
 /**
  * \brief The artdaq namespace
@@ -53,7 +53,7 @@ private:
 			if (sts != ECA_NORMAL)
 			{
 				SEVCHK(ca_clear_channel(channel), NULL);
-				TLOG(TLVL_WARNING) << "Channel \"" << name << "\" not found!";
+				METLOG(TLVL_WARNING) << "Channel \"" << name << "\" not found!";
 				channels_[name] = nullptr;
 				return false;
 			}
@@ -100,9 +100,10 @@ public:
    * \brief Construct an instance of the EpicsMetric plugin.
    * \param pset Parameter set to configure with. MetricPlugin parameters plus "channel_name_prefix", default "artdaq".
    * \param app_name Name of the application sending metrics
+   * \param metric_name Name of this metric instance
    */
-	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name)
-	    : MetricPlugin(pset, app_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")) {}
+	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
+	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_() {}
 
 	~EpicsMetric() override { MetricPlugin::stopMetrics(); }
 
@@ -179,7 +180,7 @@ public:
 
 		if (!unit.empty())
 		{
-			TLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			METLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -208,7 +209,7 @@ public:
 
 		if (!unit.empty())
 		{
-			TLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			METLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -237,7 +238,7 @@ public:
 
 		if (!unit.empty())
 		{
-			TLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			METLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -266,7 +267,7 @@ public:
 
 		if (!unit.empty())
 		{
-			TLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			METLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
