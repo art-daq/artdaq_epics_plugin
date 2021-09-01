@@ -17,7 +17,7 @@ cmake_minimum_required (VERSION 3.17)
 
 find_package(cetbuildtools)
 
-project(artdaq_epics_plugin VERSION 1.03.03)
+project(artdaq_epics_plugin VERSION 1.04.00)
 # cetbuildtools contains our cmake modules
 SET ( CETBUILDTOOLS_VERSION $ENV{CETBUILDTOOLS_VERSION} )
 IF (NOT CETBUILDTOOLS_VERSION)
