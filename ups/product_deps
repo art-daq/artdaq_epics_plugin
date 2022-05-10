@@ -20,8 +20,8 @@ old_style_config_vars
 
 #
 product				version		optional
-artdaq_utilities	v1_07_01
-epics				v3_15_8
+artdaq_utilities	v1_07_02
+epics				v7_0_6_1
 cetmodules			v2_26_00		-	only_for_build
 end_product_list
 
@@ -29,12 +29,12 @@ end_product_list
 # -nq- means there is no qualifier
 # a "-" means the dependent product is not required by the parent and will not be setup
 qualifier		artdaq_utilities	epics	notes
-c7:s115:debug	c7:s115:debug		c7		-std=c++17
-c7:s115:prof	c7:s115:prof		c7		-std=c++17
-e20:s115:debug	e20:s115:debug		e20		-std=c++17
-e20:s115:prof	e20:s115:prof		e20		-std=c++17
-e19:s115:debug	e19:s115:debug		e19		-std=c++17
-e19:s115:prof	e19:s115:prof		e19		-std=c++17
+c7:s116:debug	c7:s116:debug		c7		-std=c++17
+c7:s116:prof	c7:s116:prof		c7		-std=c++17
+e20:s116:debug	e20:s116:debug		e20		-std=c++17
+e20:s116:prof	e20:s116:prof		e20		-std=c++17
+e19:s116:debug	e19:s116:debug		e19		-std=c++17
+e19:s116:prof	e19:s116:prof		e19		-std=c++17
 
 c7:s114:debug	c7:s114:debug		c7		-std=c++17
 c7:s114:prof	c7:s114:prof		c7		-std=c++17

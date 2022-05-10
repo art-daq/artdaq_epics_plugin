@@ -20,7 +20,7 @@ set(CET_CETBUILDTOOLS_COMPAT TRUE)
 include(Compatibility)
 set(CET_WARN_DEPRECATED)
 
-project(artdaq_epics_plugin VERSION 1.04.01)
+project(artdaq_epics_plugin VERSION 1.04.02)
 #
 set(CMAKE_MODULE_PATH
 			  $ENV{ARTDAQ_UTILITIES_DIR}/Modules
