@@ -86,7 +86,7 @@ private:
 		}
 		caName = caPrefix_ + ":" + caName;
 
-		TLOG(TLVL_TRACE) << "Channel name is: \"" << caName << "\"";
+		TLOG(TLVL_DEBUG + 32) << "Channel name is: \"" << caName << "\"";
 		return caName;
 	}
 
@@ -180,7 +180,7 @@ public:
 
 		if (!unit.empty())
 		{
-			METLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			METLOG(TLVL_DEBUG + 32) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -209,7 +209,7 @@ public:
 
 		if (!unit.empty())
 		{
-			METLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			METLOG(TLVL_DEBUG + 32) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -238,7 +238,7 @@ public:
 
 		if (!unit.empty())
 		{
-			METLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			METLOG(TLVL_DEBUG + 32) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
@@ -267,7 +267,7 @@ public:
 
 		if (!unit.empty())
 		{
-			METLOG(TLVL_TRACE) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
+			METLOG(TLVL_DEBUG + 32) << "Not sure if I can send ChannelAccess Units...configure in db instead.";
 		}
 
 		if (checkChannel_(caName))
