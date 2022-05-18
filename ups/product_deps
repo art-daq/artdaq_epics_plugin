@@ -22,7 +22,7 @@ old_style_config_vars
 product				version		optional
 artdaq_utilities	v1_07_02
 epics				v7_0_6_1
-cetmodules			v3_08_00		-	only_for_build
+cetmodules			v3_13_02		-	only_for_build
 end_product_list
 
 # e10 - with gcc 4.9.3a and -std=c++14
