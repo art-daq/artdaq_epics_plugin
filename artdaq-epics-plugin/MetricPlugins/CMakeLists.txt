@@ -1,14 +1,7 @@
-include_directories($ENV{EPICS_INC}/compiler/gcc)
-include_directories($ENV{EPICS_INC}/os/Linux)
 
-basic_plugin(epics "metric"
-  artdaq_utilities::artdaq-utilities_Plugins
-  fhiclcpp
-  cetlib
-  cetlib_except
-  MF_MessageLogger
-  ca
-)
+include(MetricPlugins)
+
+cet_build_plugin(epics metric LIBRARIES REG EPICS::ca)
 
 install_fhicl(LIST fcl/epics.fcl)
 

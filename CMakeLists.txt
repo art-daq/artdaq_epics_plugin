@@ -13,21 +13,17 @@
 #  make package
 # ======================================================================
 
-cmake_minimum_required (VERSION 3.17)
+cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
 
-find_package(cetmodules)
-set(CET_CETBUILDTOOLS_COMPAT TRUE)
-include(Compatibility)
-set(CET_WARN_DEPRECATED)
+find_package(cetmodules 3.08.00 REQUIRED)
 
 project(artdaq_epics_plugin VERSION 1.04.02)
-#
-set(CMAKE_MODULE_PATH
-			  $ENV{ARTDAQ_UTILITIES_DIR}/Modules
-		      ${CMAKE_MODULE_PATH})
 
 include(CetCMakeEnv)
 cet_cmake_env()
+
+# Find our own CMake modules, and tell everyone else where to find them.
+cet_cmake_module_directories(Modules BINARY)
 
 cet_set_compiler_flags(DIAGS VIGILANT
   WERROR
@@ -59,26 +55,8 @@ if(BTYPE_UC STREQUAL DEBUG)
 endif()
 
 #cet_report_compiler_flags()
-
-# these are minimum required versions, not the actual product versions
-find_ups_boost(v1_53_0)
-find_ups_product( artdaq_utilities        v1_00_00 )
-find_ups_product( fhiclcpp    v3_04_00 )
-find_ups_product( epics       v3_14_12 )
-find_ups_product( cetbuildtools v4_01_03 )
-find_ups_product( messagefacility v1_14_01 )
-find_ups_product( TRACE v3_13_00 )
-
-link_directories($ENV{EPICS_LIB})
-include_directories($ENV{EPICS_INC}/compiler/gcc $ENV{EPICS_INC}/compiler/clang)
-
-string(REGEX MATCHALL "[0-9][0-9]?[0-9]?" MESSAGEFACILITY_VERSION_LIST "$ENV{MESSAGEFACILITY_VERSION}")
-list(GET MESSAGEFACILITY_VERSION_LIST 0 MESSAGEFACILITY_MAJOR_VERSION)
-list(GET MESSAGEFACILITY_VERSION_LIST 1 MESSAGEFACILITY_MINOR_VERSION)
-list(GET MESSAGEFACILITY_VERSION_LIST 2 MESSAGEFACILITY_PATCH_VERSION)
-
-message("-DMESSAGEFACILITY_HEX_VERSION=0x${MESSAGEFACILITY_MAJOR_VERSION}${MESSAGEFACILITY_MINOR_VERSION}${MESSAGEFACILITY_PATCH_VERSION}")
-add_definitions(-DMESSAGEFACILITY_HEX_VERSION=0x${MESSAGEFACILITY_MAJOR_VERSION}${MESSAGEFACILITY_MINOR_VERSION}${MESSAGEFACILITY_PATCH_VERSION})
+find_package(artdaq_utilities 1.07.02 REQUIRED)
+find_package(EPICS 7.0.6.1 REQUIRED)
 
 # Debug streamer.
 string(TOUPPER ${CMAKE_BUILD_TYPE} BTYPE_UC)
@@ -97,5 +75,9 @@ add_subdirectory(doc)
 
 # scripts - Helpful scripts
 add_subdirectory(scripts)
+
+# CMake module files used by artdaq_epics_plugin packages
+FILE(COPY Modules DESTINATION .)
+INSTALL(DIRECTORY Modules DESTINATION ${product}/${version})
 
 cet_cmake_config()
