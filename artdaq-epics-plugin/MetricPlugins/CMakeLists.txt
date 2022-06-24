@@ -1,7 +1,7 @@
 
 include(MetricPlugins)
 
-cet_build_plugin(epics metric LIBRARIES REG EPICS::ca)
+cet_build_plugin(epics artdaq::metric LIBRARIES REG EPICS::ca TRACE::MF)
 
 install_fhicl(LIST fcl/epics.fcl)
 
