@@ -21,7 +21,7 @@ old_style_config_vars
 #
 product				version		optional
 artdaq_utilities	v1_08_00
-epics				v7_0_6_1
+epics				v7_0_7
 cetmodules			v3_19_02		-	only_for_build
 end_product_list
 
