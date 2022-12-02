@@ -157,6 +157,7 @@ public:
 			{
 				tmpValue = tmpValue.erase(40);
 			}
+			TLOG(TLVL_DEBUG) << "Putting value " << tmpValue << " into " << caName;
 			SEVCHK(ca_put(DBR_STRING, channels_[caName], tmpValue.c_str()), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
@@ -186,6 +187,7 @@ public:
 		if (checkChannel_(caName))
 		{
 			auto val = static_cast<dbr_long_t>(value);
+			TLOG(TLVL_DEBUG) << "Putting value " << value << " into " << caName;
 			SEVCHK(ca_put(DBR_LONG, channels_[caName], &val), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
@@ -215,6 +217,7 @@ public:
 		if (checkChannel_(caName))
 		{
 			auto val = static_cast<dbr_double_t>(value);
+			TLOG(TLVL_DEBUG) << "Putting value " << value << " into " << caName;
 			SEVCHK(ca_put(DBR_DOUBLE, channels_[caName], &val), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
@@ -244,6 +247,7 @@ public:
 		if (checkChannel_(caName))
 		{
 			auto val = static_cast<dbr_float_t>(value);
+			TLOG(TLVL_DEBUG) << "Putting value " << value << " into " << caName;
 			SEVCHK(ca_put(DBR_FLOAT, channels_[caName], &val), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
@@ -273,6 +277,7 @@ public:
 		if (checkChannel_(caName))
 		{
 			auto val = static_cast<dbr_ulong_t>(value);
+			TLOG(TLVL_DEBUG) << "Putting value " << value << " into " << caName;
 			SEVCHK(ca_put(DBR_LONG, channels_[caName], &val), NULL);
 			SEVCHK(ca_flush_io(), NULL);
 		}
