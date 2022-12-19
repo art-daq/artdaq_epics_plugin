@@ -105,7 +105,9 @@ public:
 	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
 	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_() {}
 
-	~EpicsMetric() override { MetricPlugin::stopMetrics(); }
+	~EpicsMetric() override { 
+		TLOG(TLVL_INFO) << "EPICS Metric Destructor";
+		MetricPlugin::stopMetrics(); }
 
 	/**
    * \brief Gets the unique library name of this plugin
@@ -118,20 +120,25 @@ public:
    */
 	void stopMetrics_() override
 	{
+		TLOG(TLVL_INFO) << "EpicsMetric::stopMetrics_";
 		for (const auto& channel : channels_)
 		{
 			if (channel.second != 0)
 			{
+				TLOG(TLVL_INFO) << "Clearing channel " << channel.first;
 				SEVCHK(ca_clear_channel(channel.second), NULL);
 			}
 		}
 		channels_.clear();
+		ca_context_destroy();
 	}
 
 	/**
    * \brief No initialization is needed to start sending metrics.
    */
-	void startMetrics_() override {}
+	void startMetrics_() override {
+		SEVCHK(ca_context_create(ca_enable_preemptive_callback), NULL);		
+	}
 
 	/**
    * \brief Send a string metric data point to ChannelAccess.
