@@ -86,7 +86,7 @@ private:
 		}
 		caName = caPrefix_ + ":" + caName;
 
-		TLOG(TLVL_DEBUG + 32) << "Channel name is: \"" << caName << "\"";
+		METLOG(TLVL_DEBUG + 32) << "Channel name is: \"" << caName << "\"";
 		return caName;
 	}
 
@@ -103,7 +103,9 @@ public:
    * \param metric_name Name of this metric instance
    */
 	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
-	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_() {}
+	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_() {
+		METLOG(TLVL_DEBUG + 30) << "EpicsMetric CONSTRUCTOR";
+	}
 
 	~EpicsMetric() override { 
 		TLOG(TLVL_INFO) << "EPICS Metric Destructor";
