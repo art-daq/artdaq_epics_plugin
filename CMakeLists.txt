@@ -86,6 +86,6 @@ add_subdirectory(scripts)
 
 # CMake module files used by artdaq_epics_plugin packages
 FILE(COPY Modules DESTINATION .)
-INSTALL(DIRECTORY Modules DESTINATION ${product}/${version})
+INSTALL(DIRECTORY Modules DESTINATION .)
 
 cet_cmake_config()
