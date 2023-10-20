@@ -79,7 +79,7 @@ include(BasicPlugin)
 add_subdirectory(artdaq-epics-plugin)
 
 # doc- Documentation
-# add_subdirectory(doc)
+add_subdirectory(doc)
 
 # scripts - Helpful scripts
 add_subdirectory(scripts)
