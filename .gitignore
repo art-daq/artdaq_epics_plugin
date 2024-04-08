@@ -1,6 +1,9 @@
-\#*\#
+*#
 *~
-*.vcxproj*
+*.tmproj
+.editorconfig
 bin/*
 obj/*
-.vscode
+*.vcxproj*
+core.*
+spack-build-*
