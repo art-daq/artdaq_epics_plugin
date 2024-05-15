@@ -42,6 +42,7 @@ class EpicsMetric : public MetricPlugin
 private:
 	std::string prefix_;
 	std::unordered_map<std::string, chid> channels_;
+	bool running_;
 
 	bool checkChannel_(const std::string& name)
 	{
@@ -103,7 +104,7 @@ public:
    * \param metric_name Name of this metric instance
    */
 	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
-	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_() {
+	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_(), running_(0) {
 		METLOG(TLVL_DEBUG + 30) << "EpicsMetric CONSTRUCTOR";
 	}
 
@@ -132,7 +133,8 @@ public:
 			}
 		}
 		channels_.clear();
-		ca_context_destroy();
+		if (running_) ca_context_destroy();  // destroy blocks if the context is already gone/not running
+		running_ = false;
 	}
 
 	/**
@@ -140,6 +142,7 @@ public:
    */
 	void startMetrics_() override {
 		SEVCHK(ca_context_create(ca_enable_preemptive_callback), NULL);		
+		running_ = true;
 	}
 
 	/**
