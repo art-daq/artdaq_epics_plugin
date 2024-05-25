@@ -12,6 +12,9 @@
 
 #include <unordered_map>
 #include <utility>
+#include <filesystem>
+#include <fstream>
+#include <wordexp.h>
 #include "artdaq-utilities/Plugins/MetricMacros.hh"
 #include "messagefacility/MessageLogger/MessageLogger.h"
 #undef STATIC_ASSERT
@@ -30,6 +33,8 @@
 #pragma GCC diagnostic pop
 #endif
 
+
+namespace fs = std::filesystem;
 /**
  * \brief The artdaq namespace
  */
@@ -43,11 +48,13 @@ private:
 	std::string prefix_;
 	std::unordered_map<std::string, chid> channels_;
 	bool running_;
+    std::string dbg_out_name_; // file to write append all used channels to, if dbg_out_name_ != ""
 
 	bool checkChannel_(const std::string& name)
 	{
 		if (channels_.count(name) == 0u)
 		{
+            addChannelToDbg(name);
 			chid channel;
 			ca_search(name.c_str(), &channel);
 			auto sts = ca_pend_io(5.0);
@@ -91,6 +98,63 @@ private:
 		return caName;
 	}
 
+    void addChannelToDbg(const std::string& name) {
+        if(dbg_out_name_ == "") return;
+        METLOG(TLVL_WARNING) << "Adding \"" + name + "\" to \"" << dbg_out_name_ << "\"." << std::endl;
+        // check if we can parse the name, needs at least 3 parts
+        // if 4 parts, assume the first part is a prefix that can be dropped
+        // if more than 4 parts, assume 1 sybsystem, 1 varname, and the rest is location
+        std::vector<size_t> parts;
+        size_t pos = 0;
+        while ((pos = name.find(":", pos)) != std::string::npos) {
+            parts.push_back(pos);
+            pos++;  
+        }
+        if(parts.size() < 2) {
+            METLOG(TLVL_ERROR) << "Can't parse \"" << name << "\" for dbg file, at least 3 parts spearated with \":\" are expected.";
+            return;
+        }
+        std::string subsystem = name.substr(((parts.size() == 2) ? 0 : (parts[0]+1)),            
+                                            ((parts.size() == 2) ? (parts[0]) : (parts[1]-parts[0]-1)));
+        std::string loc       = name.substr(((parts.size() == 2) ? (parts[0]+1) : (parts[1]+1)), 
+                                            (parts.size() == 2) ? (parts[parts.size()-1]-parts[0]-1) : (parts[parts.size()-1]-parts[1]-1)); 
+        std::string pvar      = name.substr((parts[parts.size()-1]+1));
+
+        std::fstream file(parseDbgOutName_(dbg_out_name_), std::ios::in | std::ios::out | std::ios::ate);
+        if(file) {
+            std::streamoff currentPos = file.tellp();
+            char ch;
+            do {
+                currentPos--;
+                file.seekg(currentPos);
+                ch = file.get();
+            } while (ch != '\n' && currentPos > 0);
+            if (ch == '\n') {
+                file.seekp(currentPos + 1, std::ios::beg);
+                //file.truncate();
+                file << "           {\"" << subsystem << "\", \"" << loc << "\", \"" << pvar << "\", ";
+                file << "\"0\", "; // PREC: precision
+                file << "\"\", "; // EGU: engineering units
+                file << "\"\", \"\", \"\", \"\", "; // LOLO, LOW, HIGH, HIHI
+                file << "\"\", \"\", \"\", \"\", \"\", "; // MDEL (monitor dead band), ADEL (archive deadband), INP (input link), SCAN (), DTYP (device type)
+                file << "\"" << app_name_ << "\"}" << std::endl; //DESC descriptions
+                file << "}";
+            }
+            file.close(); 
+        }
+    }
+
+    std::string parseDbgOutName_(const std::string& name) {
+    wordexp_t p;
+    if (wordexp(name.c_str(), &p, WRDE_NOCMD) == 0) {
+        std::string expanded = p.we_wordv[0];
+        wordfree(&p);
+        return expanded;
+    } else {
+        return name;
+    }
+}
+
 	EpicsMetric(EpicsMetric const&) = delete;
 	EpicsMetric(EpicsMetric&&) = delete;
 	EpicsMetric& operator=(EpicsMetric const&) = delete;
@@ -104,8 +168,29 @@ public:
    * \param metric_name Name of this metric instance
    */
 	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
-	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_(), running_(0) {
+	    : MetricPlugin(pset, app_name, metric_name)
+        , prefix_(pset.get<std::string>("channel_name_prefix", "artdaq"))
+        , channels_()
+        , running_(0)
+        , dbg_out_name_(pset.get<std::string>("dbg_out_name", "")) {
 		METLOG(TLVL_DEBUG + 30) << "EpicsMetric CONSTRUCTOR";
+
+        if(dbg_out_name_ != "") {
+            // if the file doesn't exist, write header
+            //if (!fs::exists(dbg_out_name_)) {:
+                METLOG(TLVL_DEBUG) << "Creating " << dbg_out_name_ << " :: " << parseDbgOutName_(dbg_out_name_) << std::endl;
+                std::ofstream file(parseDbgOutName_(dbg_out_name_));
+                if (file.is_open()) { 
+                    file << "file \"dbt/subst_ai.dbt\" {" << std::endl;
+                    file << "    pattern { Subsystem, loc, pvar, "; // used
+                    file << "PREC, EGU, LOLO, LOW, HIGH, HIHI, MDEL, ADEL, INP, SCAN, DTYP, DESC }" << std::endl;
+                    file << "}";
+                    file.close();
+                } else {
+                    METLOG(TLVL_WARNING) << "Failed to create '"+dbg_out_name_+"'";
+                }
+            //}
+        }
 	}
 
 	~EpicsMetric() override { 
