@@ -98,29 +98,32 @@ private:
 
 public:
 	/**
-   * \brief Construct an instance of the EpicsMetric plugin.
-   * \param pset Parameter set to configure with. MetricPlugin parameters plus "channel_name_prefix", default "artdaq".
-   * \param app_name Name of the application sending metrics
-   * \param metric_name Name of this metric instance
-   */
+	 * \brief Construct an instance of the EpicsMetric plugin.
+	 * \param pset Parameter set to configure with. MetricPlugin parameters plus "channel_name_prefix", default "artdaq".
+	 * \param app_name Name of the application sending metrics
+	 * \param metric_name Name of this metric instance
+	 */
 	explicit EpicsMetric(fhicl::ParameterSet const& pset, std::string const& app_name, std::string const& metric_name)
-	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_(), running_(0) {
+	    : MetricPlugin(pset, app_name, metric_name), prefix_(pset.get<std::string>("channel_name_prefix", "artdaq")), channels_(), running_(0)
+	{
 		METLOG(TLVL_DEBUG + 30) << "EpicsMetric CONSTRUCTOR";
 	}
 
-	~EpicsMetric() override { 
+	~EpicsMetric() override
+	{
 		TLOG(TLVL_INFO) << "EPICS Metric Destructor";
-		MetricPlugin::stopMetrics(); }
+		MetricPlugin::stopMetrics();
+	}
 
 	/**
-   * \brief Gets the unique library name of this plugin
-   * \return The library name of this plugin, "epics".
-   */
+	 * \brief Gets the unique library name of this plugin
+	 * \return The library name of this plugin, "epics".
+	 */
 	std::string getLibName() const override { return "epics"; }
 
 	/**
-   * \brief Clears the registered ChannelAccess channels.
-   */
+	 * \brief Clears the registered ChannelAccess channels.
+	 */
 	void stopMetrics_() override
 	{
 		TLOG(TLVL_INFO) << "EpicsMetric::stopMetrics_";
@@ -138,26 +141,27 @@ public:
 	}
 
 	/**
-   * \brief No initialization is needed to start sending metrics.
-   */
-	void startMetrics_() override {
-		SEVCHK(ca_context_create(ca_enable_preemptive_callback), NULL);		
+	 * \brief No initialization is needed to start sending metrics.
+	 */
+	void startMetrics_() override
+	{
+		SEVCHK(ca_context_create(ca_enable_preemptive_callback), NULL);
 		running_ = true;
 	}
 
 	/**
-   * \brief Send a string metric data point to ChannelAccess.
-   * \param name Name of the metric
-   * \param value Value of the metric
-   * \param unit Units used (not really relevant for string metrics)
-   *
-   * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
-   * If the named channel is not yet open, it will be opened. If the channel is not registered with an
-   * IOC, then the metric data will not be sent and a warning message will be printed the first time.
-   */
+	 * \brief Send a string metric data point to ChannelAccess.
+	 * \param name Name of the metric
+	 * \param value Value of the metric
+	 * \param unit Units used (not really relevant for string metrics)
+	 *
+	 * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
+	 * If the named channel is not yet open, it will be opened. If the channel is not registered with an
+	 * IOC, then the metric data will not be sent and a warning message will be printed the first time.
+	 */
 	void sendMetric_(const std::string& name, const std::string& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
-		//std::string caName = prefix_ + ":" + name;
+		// std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
 		std::string tmpValue = value + " " + unit;
@@ -176,19 +180,19 @@ public:
 	}
 
 	/**
-   * \brief Send an integer metric data point to ChannelAccess.
-   * \param name Name of the metric
-   * \param value Value of the metric
-   * \param unit Units used
-   *
-   * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
-   * If the named channel is not yet open, it will be opened. If the channel is not registered with an
-   * IOC, then the metric data will not be sent and a warning message will be printed the first time.
-   */
+	 * \brief Send an integer metric data point to ChannelAccess.
+	 * \param name Name of the metric
+	 * \param value Value of the metric
+	 * \param unit Units used
+	 *
+	 * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
+	 * If the named channel is not yet open, it will be opened. If the channel is not registered with an
+	 * IOC, then the metric data will not be sent and a warning message will be printed the first time.
+	 */
 	void sendMetric_(const std::string& name, const int& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		// DBR_LONG
-		//std::string caName = prefix_ + ":" + name;
+		// std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
 		if (!unit.empty())
@@ -206,19 +210,19 @@ public:
 	}
 
 	/**
-   * \brief Send a double metric data point to ChannelAccess.
-   * \param name Name of the metric
-   * \param value Value of the metric
-   * \param unit Units used
-   *
-   * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
-   * If the named channel is not yet open, it will be opened. If the channel is not registered with an
-   * IOC, then the metric data will not be sent and a warning message will be printed the first time.
-   */
+	 * \brief Send a double metric data point to ChannelAccess.
+	 * \param name Name of the metric
+	 * \param value Value of the metric
+	 * \param unit Units used
+	 *
+	 * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
+	 * If the named channel is not yet open, it will be opened. If the channel is not registered with an
+	 * IOC, then the metric data will not be sent and a warning message will be printed the first time.
+	 */
 	void sendMetric_(const std::string& name, const double& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		// DBR_DOUBLE
-		//std::string caName = prefix_ + ":" + name;
+		// std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
 		if (!unit.empty())
@@ -236,19 +240,19 @@ public:
 	}
 
 	/**
-   * \brief Send a float metric data point to ChannelAccess.
-   * \param name Name of the metric
-   * \param value Value of the metric
-   * \param unit Units used
-   *
-   * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
-   * If the named channel is not yet open, it will be opened. If the channel is not registered with an
-   * IOC, then the metric data will not be sent and a warning message will be printed the first time.
-   */
+	 * \brief Send a float metric data point to ChannelAccess.
+	 * \param name Name of the metric
+	 * \param value Value of the metric
+	 * \param unit Units used
+	 *
+	 * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
+	 * If the named channel is not yet open, it will be opened. If the channel is not registered with an
+	 * IOC, then the metric data will not be sent and a warning message will be printed the first time.
+	 */
 	void sendMetric_(const std::string& name, const float& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		// DBR_FLOAT
-		//std::string caName = prefix_ + ":" + name;
+		// std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
 		if (!unit.empty())
@@ -266,19 +270,19 @@ public:
 	}
 
 	/**
-   * \brief Send an unsigned integer metric data point to ChannelAccess.
-   * \param name Name of the metric
-   * \param value Value of the metric. Will be truncated t fit in the size of a dbr_ulong_t, a 32-bit unsigned integer.
-   * \param unit Units used
-   *
-   * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
-   * If the named channel is not yet open, it will be opened. If the channel is not registered with an
-   * IOC, then the metric data will not be sent and a warning message will be printed the first time.
-   */
+	 * \brief Send an unsigned integer metric data point to ChannelAccess.
+	 * \param name Name of the metric
+	 * \param value Value of the metric. Will be truncated t fit in the size of a dbr_ulong_t, a 32-bit unsigned integer.
+	 * \param unit Units used
+	 *
+	 * Send a string metric data point to ChannelAccess. The name will be channel_name_prefix:name.
+	 * If the named channel is not yet open, it will be opened. If the channel is not registered with an
+	 * IOC, then the metric data will not be sent and a warning message will be printed the first time.
+	 */
 	void sendMetric_(const std::string& name, const uint64_t& value, const std::string& unit, const std::chrono::system_clock::time_point&) override
 	{
 		// DBR_LONG, only unsigned type is only 16 bits, use widest integral field
-		//std::string caName = prefix_ + ":" + name;
+		// std::string caName = prefix_ + ":" + name;
 		std::string caName = parseChannelName_(prefix_, name);
 
 		if (!unit.empty())
