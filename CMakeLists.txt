@@ -64,7 +64,7 @@ if(BTYPE_UC STREQUAL DEBUG)
 endif()
 
 #cet_report_compiler_flags()
-find_package(artdaq_utilities 1.07.02 REQUIRED)
+find_package(artdaq-utilities 1.07.02 REQUIRED)
 find_package(EPICS 7.0.6.1 REQUIRED)
 
 # Debug streamer.
