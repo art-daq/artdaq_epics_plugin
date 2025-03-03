@@ -17,7 +17,7 @@ cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
 
 find_package(cetmodules 3.08.00 REQUIRED)
 
-project(artdaq-epics-plugin VERSION 1.07.00)
+project(artdaq-epics-plugin VERSION 2.00.00)
 
 include(CetCMakeEnv)
 cet_cmake_env()
