@@ -17,7 +17,7 @@ cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
 
 find_package(cetmodules 3.08.00 REQUIRED)
 
-project(artdaq_epics_plugin VERSION 1.07.00)
+project(artdaq-epics-plugin VERSION 1.07.00)
 
 include(CetCMakeEnv)
 cet_cmake_env()
@@ -64,7 +64,7 @@ if(BTYPE_UC STREQUAL DEBUG)
 endif()
 
 #cet_report_compiler_flags()
-find_package(artdaq_utilities 1.07.02 REQUIRED)
+find_package(artdaq-utilities 1.07.02 REQUIRED)
 find_package(EPICS 7.0.6.1 REQUIRED)
 
 # Debug streamer.
